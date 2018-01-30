@@ -82,6 +82,11 @@ class HtmlConverterTest extends \PHPUnit_Framework_TestCase
         $this->html_gives_markdown("Emphasis preserves<em><br/></em>HTML breaks", "Emphasis preserves  \nHTML breaks");
     }
 
+    public function test_inword_emphasis_uses_underscores() 
+    {
+        $this->html_gives_markdown('<p>Did you check the Test<em>Case</em>?</p>', 'Did you check the Test*Case*?');
+    }
+
     public function test_nesting()
     {
         $this->html_gives_markdown('<span><span>Test</span></span>', '<span><span>Test</span></span>');
