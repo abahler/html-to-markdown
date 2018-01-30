@@ -28,6 +28,7 @@ class EmphasisConverter implements ConverterInterface, ConfigurationAwareInterfa
      */
     public function convert(ElementInterface $element)
     {
+        echo "The element in convert() is " . print_r($element, true) . "\n\n";
         $tag = $element->getTagName();
         $value = $element->getValue();
 
