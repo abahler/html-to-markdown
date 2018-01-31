@@ -28,7 +28,6 @@ class EmphasisConverter implements ConverterInterface, ConfigurationAwareInterfa
      */
     public function convert(ElementInterface $element)
     {
-        echo "The element in convert() is " . print_r($element, true) . "\n\n";
         $tag = $element->getTagName();
         $value = $element->getValue();
 
@@ -37,7 +36,16 @@ class EmphasisConverter implements ConverterInterface, ConfigurationAwareInterfa
         }
 
         if ($tag === 'i' || $tag === 'em') {
-            $style = $this->config->getOption('italic_style');
+            // Analyze text surrounding the tag to determine if emphasis is on only part of a word
+            $parent = $element->getParent();
+            $childString = $parent->getChildrenAsString();
+
+            $partialWordEmphasis = preg_match('/(\w<(em|i)>|<\/(em|i)>\w)/', $childString);
+            if ($partialWordEmphasis === 1) {
+                $style = '*';
+            } else {
+                $style = $this->config->getOption('italic_style');    
+            }
         } else {
             $style = $this->config->getOption('bold_style');
         }
